@@ -82,6 +82,9 @@ set background=dark
 highlight Constant ctermfg=Green  
 " set the color of the suggestions menu
 highlight Pmenu ctermfg=lightblue ctermbg=darkgrey guifg=#ffffff guibg=#000000
+" set the color of the search highlight
+highlight Search guifg=#ffffff guibg=#0000ff gui=none ctermfg=white ctermbg=darkblue 
+
 " ================ Turn Off Swap Files ==============
 set noswapfile
 set nobackup
@@ -102,4 +105,14 @@ endif
 set scrolloff=8         "Start scrolling when we're 8 lines away from margins
 set sidescrolloff=15
 set sidescroll=1
+" ================ Commenting ========================
+autocmd FileType c,cpp,java,javascript,scala let b:comment_leader = '// '
+autocmd FileType sh,ruby,python   let b:comment_leader = '# '
+autocmd FileType conf,fstab       let b:comment_leader = '# '
+autocmd FileType tex              let b:comment_leader = '% '
+autocmd FileType mail             let b:comment_leader = '> '
+autocmd FileType vim              let b:comment_leader = '" '
+noremap <silent> ,cc :<C-B>silent <C-E>s/^/<C-R>=escape(b:comment_leader,'\/')<CR>/<CR>:nohlsearch<CR>
+noremap <silent> ,cu :<C-B>silent <C-E>s/^\V<C-R>=escape(b:comment_leader,'\/')<CR>//e<CR>:nohlsearch<CR>
+
 
