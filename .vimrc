@@ -1,32 +1,48 @@
 set nocompatible              " be iMproved
 filetype off                  " required!
+" set modifiable              " allow file operations (delete etc.) in NERDTree
 
-set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
 " original repos on GitHub
 " let Vundle manage Vundle
 " required! 
-Bundle 'gmarik/vundle'
-Bundle 'Valloric/YouCompleteMe'
+Plugin 'gmarik/Vundle.vim'
+Plugin 'Valloric/YouCompleteMe'
+Plugin 'scrooloose/syntastic'
+Plugin 'scrooloose/nerdtree'
+Plugin 'scrooloose/nerdcommenter'
+Plugin 'kien/ctrlp.vim'
+Plugin 'tpope/vim-fugitive'
+Plugin 'elzr/vim-json'
+Plugin 'godlygeek/tabular'
+Plugin 'plasticboy/vim-markdown'
+Plugin 'instant-markdown.vim'
+
+call vundle#end()
 filetype plugin indent on     " required!
 filetype plugin on
 
-" correcting bad indent while pasting
-nnoremap p p=`]
-" map the Q letter to insert a line and paste
-:nmap Q o<esc>p
 " for easy installation use pathogen
 execute pathogen#infect()
 nnoremap <F10> :NERDTreeToggle <CR>
 map <C-n> :NERDTreeFocus <CR>
 let NERDTreeShowHidden=1
-map <C-p> :CtrlP <CR>
-map <C-u> :Ack<space>
-nmap U <C-r>
 autocmd vimenter * if !argc() | NERDTree | endif
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q 
 let g:syntastic_enable_signs=1
 let g:syntastic_auto_loc_list=1
+
+let g:vim_markdown_initial_foldlevel=1
+
+map <C-p> :CtrlP <CR>
+map <C-u> :Ack<space>
+nmap U <C-r>
+" correcting bad indent while pasting
+nnoremap p p=`]
+" map the Q letter to insert a line and paste
+:nmap Q o<esc>p
+"
 " have space-character insert a character
 noremap <silent> <space> :exe "normal i".nr2char(getchar())<CR>
 " escape key mapped to jk
