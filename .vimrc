@@ -20,6 +20,7 @@ Plugin 'godlygeek/tabular'
 Plugin 'plasticboy/vim-markdown'
 Plugin 'instant-markdown.vim'
 Plugin 'kballard/vim-swift'
+Plugin 'mileszs/ack.vim'
 
 call vundle#end()
 filetype plugin indent on     " required!
