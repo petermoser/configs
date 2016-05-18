@@ -49,6 +49,8 @@ nnoremap p p=`]
 noremap <silent> <space> :exe "normal i".nr2char(getchar())<CR>
 " escape key mapped to jk
 inoremap jk <esc>
+inoremap fd <esc> :w <CR>
+
 " delete without yanking
 nnoremap D "_D
 vnoremap D "_D
