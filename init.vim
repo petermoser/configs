@@ -11,9 +11,11 @@ call plug#begin('~/.vim/plugged')
 " install Vundle: git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 " then run :PluginInstall
 Plug 'gmarik/Vundle.vim'
-Plug 'Valloric/YouCompleteMe'
+" Plug 'Valloric/YouCompleteMe'
 " Plug 'scrooloose/syntastic'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'scrooloose/nerdtree'
+Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'christoomey/vim-system-copy'
 " Plug 'scrooloose/nerdcommenter'
 Plug 'tpope/vim-commentary'
@@ -21,20 +23,20 @@ Plug 'kien/ctrlp.vim'
 Plug 'tpope/vim-fugitive'
 Plug 'elzr/vim-json'
 Plug 'godlygeek/tabular'
-" Plug 'plasticboy/vim-markdown'
-" Plug 'instant-markdown.vim'
 Plug 'kballard/vim-swift'
 Plug 'mileszs/ack.vim'
 Plug 'junegunn/fzf.vim'
-Plug 'autozimu/LanguageClient-neovim', {
-    \ 'branch': 'next',
-    \ 'do': 'bash install.sh',
-    \ }
+Plug 'vim-airline/vim-airline'
+Plug 'jiangmiao/auto-pairs'
+" Plug 'autozimu/LanguageClient-neovim', {
+"     \ 'branch': 'next',
+"     \ 'do': 'bash install.sh',
+"     \ }
 " Startify: Fancy startup screen for vim {{{
-    Plug 'mhinz/vim-startify'
+Plug 'mhinz/vim-startify'
 
     " Don't change to directory when selecting a file
-    let g:startify_files_number = 5
+    let g:startify_files_number = 11
     let g:startify_change_to_dir = 0
     let g:startify_custom_header = [ ]
     let g:startify_relative_path = 1
@@ -80,13 +82,12 @@ let g:syntastic_auto_loc_list=1
 " let g:syntastic_javascript_checkers = ['jshint']
 
 let g:LanguageClient_serverCommands = {
-    \ 'javascript': ['javascript-typescript-stdio']
+    \ 'javascript': ['javascript-typescript-stdio'],
+    \ 'python': ['/usr/local/bin/pyls'],
     \ }
 
-let g:vim_markdown_initial_foldlevel=1
-
 " disable the top preview window that shows in YouCompleteMe
-set completeopt-=preview
+" set completeopt-=preview
 
 map <C-p> :Files<CR>
 map <C-u> :Ack<CR>
@@ -184,6 +185,9 @@ highlight Pmenu ctermfg=lightblue ctermbg=darkgrey guifg=#ffffff guibg=#000000
 " set the color of the search highlight
 highlight Search guifg=#ffffff guibg=#0000ff gui=none ctermfg=white ctermbg=darkblue 
 
+" ======= running python apps using F9 function key =======
+autocmd FileType python map <buffer> <F9> :w<CR>:exec '!python3' shellescape(@%, 1)<CR>
+autocmd FileType python imap <buffer> <F9> <esc>:w<CR>:exec '!python3' shellescape(@%, 1)<CR>
 " ================ Turn Off Swap Files ==============
 set noswapfile
 set nobackup
@@ -215,7 +219,7 @@ noremap <silent> ,cc :<C-B>silent <C-E>s/^/<C-R>=escape(b:comment_leader,'\/')<C
 noremap <silent> ,cu :<C-B>silent <C-E>s/^\V<C-R>=escape(b:comment_leader,'\/')<CR>//e<CR>:nohlsearch<CR>
 
 " Console log from insert mode; Puts focus inside parentheses
-imap cll console.log();<Esc>==f(a
+imap cll console.log('');<Esc>==f'a
 " Console log from visual mode on next line, puts visual selection inside parentheses
 vmap cll yocll<Esc>p
 " Console log from normal mode, inserted on next line with word your on inside parentheses
@@ -266,6 +270,10 @@ endfunction
 
 set includeexpr=LoadMainNodeModule(v:fname)
 
-nnoremap lc :call LanguageClient_contextMenu()<CR>
-nnoremap gd :call LanguageClient#textDocument_definition()<CR>
-nnoremap lcr :call LanguageClient#textDocument_rename()<CR>
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
+" allow to exit terminal mode with esc key
+tnoremap <Esc> <C-\><C-n>
