@@ -1,5 +1,6 @@
 set nocompatible              " be iMproved
-set shell=/bin/bash
+set shell=/usr/local/bin/zsh
+"set shell=/bin/bash
 filetype off                  " required!
 set modifiable                " allow file operations (delete etc.) in NERDTree
 
@@ -22,19 +23,17 @@ Plug 'tpope/vim-commentary'
 Plug 'kien/ctrlp.vim'
 Plug 'tpope/vim-fugitive'
 Plug 'elzr/vim-json'
-Plug 'godlygeek/tabular'
-Plug 'kballard/vim-swift'
 Plug 'mileszs/ack.vim'
 Plug 'junegunn/fzf.vim'
 Plug 'vim-airline/vim-airline'
 Plug 'jiangmiao/auto-pairs'
+" Plug 'wookiehangover/jshint.vim'
 " Plug 'autozimu/LanguageClient-neovim', {
 "     \ 'branch': 'next',
 "     \ 'do': 'bash install.sh',
 "     \ }
 " Startify: Fancy startup screen for vim {{{
 Plug 'mhinz/vim-startify'
-
     " Don't change to directory when selecting a file
     let g:startify_files_number = 11
     let g:startify_change_to_dir = 0
@@ -65,8 +64,6 @@ Plug 'mhinz/vim-startify'
     map <C-s> :Startify <CR>
 " }}}
 
-" Plug 'dense-analysis/ale'
-" Plug 'wookiehangover/jshint.vim'
 call plug#end()
 " call vundle#end()
 filetype plugin indent on     " required!
@@ -116,8 +113,8 @@ if executable('ag')
   let g:ackprg = 'ag --vimgrep'
 endif
 
-let g:ale_linters = {'javascript': ['eslint']}
-let b:ale_fixers = {'javascript': ['prettier', 'eslint']}
+" let g:ale_linters = {'javascript': ['eslint']}
+" let b:ale_fixers = {'javascript': ['prettier', 'eslint']}
 " let g:ale_completion_enabled = 1
 " let g:ale_fix_on_save = 1
 " let g:ale_enabled = 0
