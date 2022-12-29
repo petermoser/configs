@@ -27,6 +27,10 @@ Plug 'mileszs/ack.vim'
 Plug 'junegunn/fzf.vim'
 Plug 'vim-airline/vim-airline'
 Plug 'jiangmiao/auto-pairs'
+Plug 'dart-lang/dart-vim-plugin'
+Plug 'nvim-lua/plenary.nvim'
+Plug 'akinsho/flutter-tools.nvim'
+
 " Plug 'wookiehangover/jshint.vim'
 " Plug 'autozimu/LanguageClient-neovim', {
 "     \ 'branch': 'next',
@@ -101,6 +105,9 @@ noremap <silent> <space> :exe "normal i".nr2char(getchar())<CR>
 inoremap jk <esc>
 inoremap fd <esc> :w <CR>
 noremap fd :w <CR>
+inoremap <Esc> <Esc>:w<CR>
+
+noremap fp :CocCommand prettier.formatFile<CR>
 
 :nnoremap <Leader>q" ciw""<Esc>P
 :nnoremap <Leader>q' ciw''<Esc>P
@@ -271,6 +278,7 @@ nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
+inoremap <expr> <cr> coc#pum#visible() ? coc#pum#confirm() : "\<CR>"
 
 " allow to exit terminal mode with esc key
 tnoremap <Esc> <C-\><C-n>
