@@ -22,14 +22,16 @@ Plug 'christoomey/vim-system-copy'
 Plug 'tpope/vim-commentary'
 Plug 'kien/ctrlp.vim'
 Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-unimpaired'
 Plug 'elzr/vim-json'
 Plug 'mileszs/ack.vim'
 Plug 'junegunn/fzf.vim'
 Plug 'vim-airline/vim-airline'
-Plug 'jiangmiao/auto-pairs'
+" Plug 'jiangmiao/auto-pairs'
 Plug 'dart-lang/dart-vim-plugin'
 Plug 'nvim-lua/plenary.nvim'
-Plug 'akinsho/flutter-tools.nvim'
+Plug 'machakann/vim-swap'
 
 " Plug 'wookiehangover/jshint.vim'
 " Plug 'autozimu/LanguageClient-neovim', {
@@ -75,6 +77,7 @@ filetype plugin on
 
 nnoremap <F10> :NERDTreeToggle <CR>
 map <C-n> :NERDTreeFocus <CR>
+map <C-g> :NERDTreeFind <CR>
 let NERDTreeShowHidden=1
 " autocmd vimenter * if !argc() | NERDTree | endif
 " autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q 
@@ -223,7 +226,7 @@ noremap <silent> ,cc :<C-B>silent <C-E>s/^/<C-R>=escape(b:comment_leader,'\/')<C
 noremap <silent> ,cu :<C-B>silent <C-E>s/^\V<C-R>=escape(b:comment_leader,'\/')<CR>//e<CR>:nohlsearch<CR>
 
 " Console log from insert mode; Puts focus inside parentheses
-imap cll console.log('');<Esc>==f'a
+imap cll console.log("");<Esc>==f"a
 " Console log from visual mode on next line, puts visual selection inside parentheses
 vmap cll yocll<Esc>p
 " Console log from normal mode, inserted on next line with word your on inside parentheses
@@ -282,3 +285,43 @@ inoremap <expr> <cr> coc#pum#visible() ? coc#pum#confirm() : "\<CR>"
 
 " allow to exit terminal mode with esc key
 tnoremap <Esc> <C-\><C-n>
+tnoremap <Esc><Esc> <C-\><c-n>
+
+func! s:my_colors_setup() abort
+  highlight CocFloating ctermbg=gray " For background color
+  highlight CocErrorFloat ctermfg=black " For text color
+endfunc
+
+augroup colorscheme_coc_setup | au!
+  au VimEnter * call s:my_colors_setup()
+augroup END
+
+let g:term_buf = 0
+let g:term_win = 0
+
+function! Term_toggle(height)
+    if win_gotoid(g:term_win)
+        hide
+    else
+        botright new
+        exec "resize " . a:height
+        try
+            exec "buffer " . g:term_buf
+        catch
+            call termopen($SHELL, {"detach": 0})
+            let g:term_buf = bufnr("")
+        endtry
+        startinsert!
+        let g:term_win = win_getid()
+    endif
+endfunction
+
+
+nnoremap <C-t> :call Term_toggle(15)<cr>
+tnoremap <C-t> <C-\><C-n>:call Term_toggle(15)<cr>
+let g:ctrlp_custom_ignore = 'node_modules\|DS_Store\|git'
+
+imap <silent> <C-[> <Plug>(copilot-next)
+imap <silent> <C-]> <Plug>(copilot-previous)
+imap <silent> <C-\> <Plug>(copilot-dismiss)
+nnoremap fr gd[{V%::s/<C-R>///gc<left><left><left>
