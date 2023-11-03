@@ -32,6 +32,7 @@ Plug 'vim-airline/vim-airline'
 Plug 'dart-lang/dart-vim-plugin'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'machakann/vim-swap'
+Plug 'david-kunz/gen.nvim', { 'branch': 'main' }
 
 " Plug 'wookiehangover/jshint.vim'
 " Plug 'autozimu/LanguageClient-neovim', {
@@ -79,6 +80,7 @@ nnoremap <F10> :NERDTreeToggle <CR>
 map <C-n> :NERDTreeFocus <CR>
 map <C-g> :NERDTreeFind <CR>
 let NERDTreeShowHidden=1
+let g:NERDTreeNodeDelimiter = "\u00a0"
 " autocmd vimenter * if !argc() | NERDTree | endif
 " autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q 
 let g:syntastic_enable_signs=1
@@ -109,6 +111,8 @@ inoremap jk <esc>
 inoremap fd <esc> :w <CR>
 noremap fd :w <CR>
 inoremap <Esc> <Esc>:w<CR>
+inoremap fds <esc> :wq <CR>
+noremap fds :wq <CR>
 
 noremap fp :CocCommand prettier.formatFile<CR>
 
@@ -325,3 +329,6 @@ imap <silent> <C-[> <Plug>(copilot-next)
 imap <silent> <C-]> <Plug>(copilot-previous)
 imap <silent> <C-\> <Plug>(copilot-dismiss)
 nnoremap fr gd[{V%::s/<C-R>///gc<left><left><left>
+
+" base 64 decoding inline in visual mode and replacing selection
+vnoremap <leader>64 c<c-r>=system('base64 --decode', @")<cr><esc>
